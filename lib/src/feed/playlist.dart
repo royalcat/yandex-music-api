@@ -117,9 +117,7 @@ class Playlist {
       available: map['available'],
       isBanner: map['isBanner'],
       isPremiere: map['isPremiere'],
-      duration: map['duration'] == null
-          ? null
-          : Duration(milliseconds: map['duration']),
+      duration: map['duration'] == null ? null : Duration(milliseconds: map['duration']),
       ogImage: map['ogImage'],
       ogTitle: map['ogTitle'],
       ogDescription: map['ogDescription'],
@@ -132,9 +130,8 @@ class Playlist {
       dummyCover: map['dummyCover'],
       dummyRolloverCover: map['dummyRolloverCover'],
       metrikaId: map['metrikaId'],
-      coauthors:
-          map['coauthors'] == null ? null : List<int>.from(map['coauthors']),
-      prerolls: List<dynamic>.from(map['prerolls']),
+      coauthors: map['coauthors'] == null ? null : List<int>.from(map['coauthors']),
+      prerolls: List<dynamic>.from(map['prerolls'] ?? []),
       likesCount: map['likesCount'],
       similarPlaylists: map['similarPlaylists'] == null
           ? null
@@ -143,8 +140,7 @@ class Playlist {
             )),
       lastOwnerPlaylists: map['lastOwnerPlaylists'] == null
           ? null
-          : List<Playlist>.from(
-              map['lastOwnerPlaylists'].map((x) => Playlist.fromMap(x))),
+          : List<Playlist>.from(map['lastOwnerPlaylists'].map((x) => Playlist.fromMap(x))),
       generatedPlaylistType: map['generatedPlaylistType'],
       animatedCoverUri: map['animatedCoverUri'],
       everPlayed: map['everPlayed'],
@@ -152,11 +148,9 @@ class Playlist {
       descriptionFormatted: map['descriptionFormatted'],
       tracks: map['tracks'] == null
           ? null
-          : List<TrackShort>.from(
-              map['tracks']?.map((x) => TrackShort.fromMap(x))),
+          : List<TrackShort>.from(map['tracks']?.map((x) => TrackShort.fromMap(x))),
     );
   }
 
-  factory Playlist.fromJson(String source) =>
-      Playlist.fromMap(json.decode(source));
+  factory Playlist.fromJson(String source) => Playlist.fromMap(json.decode(source));
 }

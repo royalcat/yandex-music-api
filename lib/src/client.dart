@@ -28,18 +28,16 @@ class YandexMusicClient {
   Future<AccountStatus> refreshAccountStatus() async =>
       accountStatus = await _getAccountStatus(requestClient);
 
-  static Future<AccountStatus> _getAccountStatus(
-      RequestClient requestClient) async {
+  static Future<AccountStatus> _getAccountStatus(RequestClient requestClient) async {
     const url = '$baseUrl/account/status';
     final result = await requestClient.get(url);
     return AccountStatus.fromMap(result as Map<String, dynamic>);
   }
 
-  Future<List<DownloadInfo>> trackDownloadInfo(int trackId) async {
-    final response =
-        await requestClient.get('$baseUrl/tracks/$trackId/download-info');
+  Future<List<DownloadInfo>> trackDownloadInfo(String trackId) async {
+    final response = await requestClient.get('$baseUrl/tracks/$trackId/download-info');
     final diList = <DownloadInfo>[];
-    for (final info in (response as Map<String, dynamic>)['result']) {
+    for (final info in (response as List<dynamic>)) {
       diList.add(DownloadInfo.fromMap(info, requestClient));
     }
 
@@ -63,7 +61,7 @@ class YandexMusicClient {
       objectType: 'track',
       userId: userId,
     );
-    return TracksList.fromMap(result);
+    return TracksList.fromMap(result["library"]);
   }
 
   Future<List<Playlist>> userLikesPlaylists({
@@ -73,9 +71,7 @@ class YandexMusicClient {
       objectType: 'playlist',
       userId: userId,
     );
-    return (result as List<dynamic>)
-        .map((e) => Playlist.fromMap(e['playlist']))
-        .toList();
+    return (result as List<dynamic>).map((e) => Playlist.fromMap(e['playlist'])).toList();
   }
 
   Future<List<Playlist>> userPlaylists({
